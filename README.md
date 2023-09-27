@@ -1,1 +1,2 @@
-# NewRepo
+# StellarMeStream
+Application for moderation
