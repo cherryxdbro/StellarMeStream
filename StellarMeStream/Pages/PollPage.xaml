@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StellarMeStream.PollPage"
+             Title="Poll">
+    <ScrollView Margin="16">
+        <StackLayout Spacing="32">
+            <StackLayout Spacing="8">
+                <Label Text="Poll title" />
+                <Entry />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

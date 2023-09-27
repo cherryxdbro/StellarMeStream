@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StellarMeStream.ChatPage"
+             Title="Chat">
+    <ScrollView Margin="16">
+        <StackLayout Spacing="32">
+            <StackLayout Spacing="8">
+                <Label Text="Message to send" />
+                <Entry x:Name="MessageToSendEntry" />
+            </StackLayout>
+            <Button Text="Send message"
+                    x:Name="SendMessageButton"
+                    Clicked="SendMessageButtonClicked" />
+            <StackLayout Spacing="8">
+                <Label Text="Super word" />
+                <Entry x:Name="SuperWordEntry" />
+            </StackLayout>
+            <Button Text="Add super word"
+                    x:Name="AddSuperWordButton"
+                    Clicked="AddSuperWordButtonClicked" />
+            <Switch x:Name="SpamSwitch"
+                    Toggled="SpamSwitchToggled" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
