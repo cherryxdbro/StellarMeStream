@@ -1,5 +1,6 @@
 using StellarMeStream.Resources.Api.TwitchApi;
 using StellarMeStream.Resources.Api.TwitchApi.Data;
+using System.Collections.ObjectModel;
 
 namespace StellarMeStream;
 
@@ -9,16 +10,16 @@ public partial class ChatPage : ContentPage
 
     public ChatPage()
 	{
-		InitializeComponent();
+        InitializeComponent();
     }
 
-    private void SendMessageButtonClicked(object sender, EventArgs e)
+    private async void SendMessageButtonClicked(object sender, EventArgs e)
     {
         foreach (Connection connection in TwitchApiSettings.TwitchConnections.Values)
         {
             foreach (string channel in connection.TargetChannels.Keys)
             {
-                TwitchApi.SendChatMessage(channel, MessageToSendEntry.Text);
+                await TwitchApi.SendChatMessage(channel, MessageToSendEntry.Text);
             }
         }
     }

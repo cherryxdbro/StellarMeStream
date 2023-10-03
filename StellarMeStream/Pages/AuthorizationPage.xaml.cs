@@ -36,8 +36,8 @@ public partial class AuthorizationPage : ContentPage
             twitchConnection.Channel.ClientId = ClientIdEntry.Text;
             twitchConnection.Channel.ClientSecret = ClientSecretEntry.Text;
             twitchConnection.Channel.Code = await TwitchApi.GetAuthorizationCode(channel);
-            twitchConnection.Channel.AccessToken = TwitchApi.GetAccessToken(channel);
-            new Thread(TwitchApi.Connect).Start(channel);
+            twitchConnection.Channel.AccessToken = await TwitchApi.GetAccessToken(channel);
+            await TwitchApi.Connect(channel);
         }
         catch (Exception exception)
         {

@@ -4,11 +4,7 @@ namespace StellarMeStream.Resources.Api.TwitchApi;
 
 internal static class IrcMessageParser
 {
-    private static readonly Dictionary<string, object> TagsToIgnore = new()
-    {
-        { "client-nonce", null },
-        { "flags", null }
-    };
+    private static readonly Dictionary<string, object> TagsToIgnore = new() { { "client-nonce", null }, { "flags", null } };
 
     internal static IrcParsedMessage ParseMessage(string message)
     {
@@ -63,7 +59,7 @@ internal static class IrcMessageParser
 
     private static Dictionary<string, object> ParseTags(string tags)
     {
-        Dictionary<string, object> dictParsedTags = new();
+        Dictionary<string, object> dictParsedTags = [];
         string[] parsedTags = tags.Split(';');
         foreach (string tag in parsedTags)
         {

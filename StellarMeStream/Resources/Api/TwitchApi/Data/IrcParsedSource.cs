@@ -1,7 +1,7 @@
 ﻿namespace StellarMeStream.Resources.Api.TwitchApi.Data;
 
-internal class IrcParsedSource
+public class IrcParsedSource
 {
-    internal string Host { get; set; }
-    internal string Nick { get; set; }
+    public string Host { get; set; }
+    public string Nick { get; set; }
 }

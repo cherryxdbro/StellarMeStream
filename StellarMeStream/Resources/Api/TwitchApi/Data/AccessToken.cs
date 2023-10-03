@@ -2,7 +2,7 @@
 
 namespace StellarMeStream.Resources.Api.TwitchApi.Data;
 
-internal class AccessToken
+public class AccessToken
 {
     [JsonPropertyName("access_token")]
     public string Token { get; set; }
@@ -14,5 +14,5 @@ internal class AccessToken
     public string[] Scope { get; set; }
     [JsonPropertyName("token_type")]
     public string TokenType { get; set; }
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    public string UpdatedAt { get; set; } = DateTime.Now.ToString();
 }

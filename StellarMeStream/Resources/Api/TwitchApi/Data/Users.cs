@@ -2,7 +2,7 @@
 
 namespace StellarMeStream.Resources.Api.TwitchApi.Data;
 
-internal class Users
+public class Users
 {
     [JsonPropertyName("data")]
     public User[] UsersData { get; set; }

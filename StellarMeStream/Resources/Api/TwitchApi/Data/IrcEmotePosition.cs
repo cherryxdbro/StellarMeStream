@@ -1,7 +1,7 @@
 ﻿namespace StellarMeStream.Resources.Api.TwitchApi.Data;
 
-internal class IrcEmotePosition
+public class IrcEmotePosition
 {
-    internal string EndPosition { get; set; }
-    internal string StartPosition { get; set; }
+    public string EndPosition { get; set; }
+    public string StartPosition { get; set; }
 }
