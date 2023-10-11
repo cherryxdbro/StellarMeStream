@@ -26,17 +26,21 @@ public partial class AuthorizationPage : ContentPage
 		try
         {
             string channel = ChannelEntry.Text;
+            string targetChannel = TargetChannelEntry.Text;
             TwitchApiSettings.TwitchConnections.TryAdd(channel, new Connection());
             if (!TwitchApiSettings.TwitchConnections.TryGetValue(channel, out Connection twitchConnection))
             {
                 throw new Exception("?");
             }
             twitchConnection.Channel.UserData.Login = channel;
-            twitchConnection.TargetChannels.TryAdd(TargetChannelEntry.Text, new Channel() { UserData = new User() { Login = TargetChannelEntry.Text } });
+            twitchConnection.TargetChannels.TryAdd(targetChannel, new Channel() { UserData = new User() { Login = targetChannel } });
             twitchConnection.Channel.ClientId = ClientIdEntry.Text;
             twitchConnection.Channel.ClientSecret = ClientSecretEntry.Text;
             twitchConnection.Channel.Code = await TwitchApi.GetAuthorizationCode(channel);
             twitchConnection.Channel.AccessToken = await TwitchApi.GetAccessToken(channel);
+            Users users = await TwitchApi.GetUsers(channel, [channel, targetChannel]);
+            twitchConnection.Channel.UserData = users.UsersData[0];
+            twitchConnection.TargetChannels[targetChannel].UserData = users.UsersData[1];
             await TwitchApi.Connect(channel);
         }
         catch (Exception exception)

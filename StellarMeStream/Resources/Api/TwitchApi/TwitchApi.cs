@@ -43,9 +43,10 @@ internal static class TwitchApi
     internal static async Task TimeoutUser(string channel, string targetChannel, string userChannel, int timeoutSeconds, string reason)
 	{
 		HttpClient httpClient = new();
-		httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {TwitchApiSettings.TwitchConnections[channel].Channel.AccessToken.Token}");
-		httpClient.DefaultRequestHeaders.Add("Client-Id", TwitchApiSettings.TwitchConnections[channel].Channel.ClientId);
-		(await httpClient.PostAsync(BansUri, new StringContent(JsonSerializer.Serialize(new Dictionary<string, object>() { { "broadcaster_id", targetChannel }, { "moderator_id", channel }, { "data", new Dictionary<string, object> { { "user_id", userChannel }, { "duration", timeoutSeconds }, { "reason", reason } } } }), Encoding.UTF8, "application/json"))).EnsureSuccessStatusCode();
+        Connection connection = TwitchApiSettings.TwitchConnections[channel];
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {connection.Channel.AccessToken.Token}");
+		httpClient.DefaultRequestHeaders.Add("Client-Id", connection.Channel.ClientId);
+		(await httpClient.PostAsync(BansUri, new StringContent(JsonSerializer.Serialize(new Dictionary<string, object>() { { "broadcaster_id", connection.TargetChannels[targetChannel].ClientId }, { "moderator_id", connection.Channel.ClientId }, { "data", new Dictionary<string, object> { { "user_id", userChannel }, { "duration", timeoutSeconds }, { "reason", reason } } } }), Encoding.UTF8, "application/json"))).EnsureSuccessStatusCode();
 	}
 
 	internal static async Task<Users> GetUsers(string channel, string[] usersChannels)
@@ -59,12 +60,12 @@ internal static class TwitchApi
 	internal static async Task Connect(string channel)
 	{
 		await StellarMeStreamDatabase.Initialize();
-		Connection twitchConnection = TwitchApiSettings.TwitchConnections[channel];
+		Connection connection = TwitchApiSettings.TwitchConnections[channel];
         IrcClientWebSocket = new ClientWebSocket();
 		await IrcClientWebSocket.ConnectAsync(new Uri(IrcUri), CancellationToken.None);
-        await SendWebSocketMessage($"PASS oauth:{twitchConnection.Channel.AccessToken.Token}");
+        await SendWebSocketMessage($"PASS oauth:{connection.Channel.AccessToken.Token}");
         await SendWebSocketMessage("NICK supercherrybanbot");
-        await SendWebSocketMessage($"JOIN #{twitchConnection.TargetChannels.First().Key}");
+        await SendWebSocketMessage($"JOIN #{connection.TargetChannels.First().Key}");
         await SendWebSocketMessage($"CAP REQ :twitch.tv/commands twitch.tv/tags");
         await ReceiveWebSocketMessages(channel);
     }
@@ -128,25 +129,25 @@ internal static class TwitchApi
                                         }
                                         break;
                                     case TwitchChatMessageHandler.ChatMessageAction.Ban:
-                                        await TimeoutUser(channel, targetChannel, sender, 600, "ЗАПРЕТКА БАН");
+                                        await TimeoutUser(channel, targetChannel, ircParsedMessage.Tags["user-id"].ToString(), 600, "ЗАПРЕТКА БАН");
                                         break;
                                     case TwitchChatMessageHandler.ChatMessageAction.Timeout:
-                                        await TimeoutUser(channel, targetChannel, sender, 600, "СПАМ МЕШАЕТ");
+                                        await TimeoutUser(channel, targetChannel, ircParsedMessage.Tags["user-id"].ToString(), 600, "СПАМ МЕШАЕТ");
                                         break;
-                                    case TwitchChatMessageHandler.ChatMessageAction.Dino:
-                                        await TimeoutUser(channel, targetChannel, sender, 600, "ДИНОЗАВРИК ЛАГАЕТ");
-                                        break;
+                                    //case TwitchChatMessageHandler.ChatMessageAction.Dino:
+                                        //await TimeoutUser(channel, targetChannel, ircParsedMessage.Tags["user-id"].ToString(), 600, "ДИНОЗАВРИК ЛАГАЕТ");
+                                        //break;
                                     case TwitchChatMessageHandler.ChatMessageAction.Super:
-                                        await TimeoutUser(channel, targetChannel, sender, 600, "ТЫ АФИГЕЛ ЧО ЛИ А???");
+                                        await TimeoutUser(channel, targetChannel, ircParsedMessage.Tags["user-id"].ToString(), 600, "ТЫ АФИГЕЛ ЧО ЛИ А???");
                                         break;
                                     default:
                                         break;
                                 }
-                                Message userMessage = new() { Id = ircParsedMessage.Tags["id"].ToString(), Data = ircParsedMessage.Parameters };
+                                /*Message userMessage = new() { Id = ircParsedMessage.Tags["id"].ToString(), Data = ircParsedMessage.Parameters };
                                 User user = (await GetUsers(channel, [sender])).UsersData.First();
                                 userMessage.User = user;
                                 await StellarMeStreamDatabase.CurrentInstance.InsertOrReplaceAsync(user);
-                                await StellarMeStreamDatabase.CurrentInstance.InsertWithChildrenAsync(userMessage);
+                                await StellarMeStreamDatabase.CurrentInstance.InsertWithChildrenAsync(userMessage);*/
                                 break;
                         }
                     });
@@ -206,7 +207,7 @@ internal static class TwitchApi
                     {
                         for (int i = 0; i < 4; i++)
                         {
-                            await SendChatMessage(channel, "❤ УЧАСТВОВАТЬ В РОЗЫГРЫШЕ ДОГОВОРОВ ОТ \"ПризываНет\" -> t.me/bilet_kussia_bot");
+                            await SendChatMessage(channel, "💖 УЧАСТВОВАТЬ В РОЗЫГРЫШЕ ДОГОВОРОВ ОТ \"ПризываНет\" -> t.me/bilet_kussia_bot");
                         }
                     }, null, TimeSpan.FromSeconds(400), TimeSpan.FromSeconds(600)));
                     TextTimers.Add(new Timer(async state =>
