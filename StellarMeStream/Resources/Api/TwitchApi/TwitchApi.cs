@@ -19,7 +19,7 @@ internal static class TwitchApi
 
     private static ClientWebSocket IrcClientWebSocket;
 
-	private static readonly List<Timer> TextTimers = new();
+	private static readonly List<Timer> TextTimers = [];
 	private static readonly List<string> Scopes = [ "analytics:read:extensions", "analytics:read:games", "bits:read", "channel:edit:commercial", "channel:manage:broadcast", "channel:manage:extensions", "channel:manage:guest_star", "channel:manage:moderators", "channel:manage:polls", "channel:manage:predictions", "channel:manage:raids", "channel:manage:redemptions", "channel:manage:schedule", "channel:manage:videos", "channel:manage:vips", "channel:moderate", "channel:read:charity", "channel:read:editors", "channel:read:goals", "channel:read:guest_star", "channel:read:hype_train", "channel:read:polls", "channel:read:predictions", "channel:read:redemptions", "channel:read:stream_key", "channel:read:subscriptions", "channel:read:vips", "chat:edit", "chat:read", "clips:edit", "moderation:read", "moderator:manage:announcements", "moderator:manage:automod", "moderator:manage:automod_settings", "moderator:manage:banned_users", "moderator:manage:blocked_terms", "moderator:manage:chat_messages", "moderator:manage:chat_settings", "moderator:manage:guest_star", "moderator:manage:shield_mode", "moderator:manage:shoutouts", "moderator:read:automod_settings", "moderator:read:blocked_terms", "moderator:read:chat_settings", "moderator:read:chatters", "moderator:read:followers", "moderator:read:guest_star", "moderator:read:shield_mode", "moderator:read:shoutouts", "user:edit", "user:edit:follows", "user:manage:blocked_users", "user:manage:chat_color", "user:manage:whispers", "user:read:blocked_users", "user:read:broadcast", "user:read:email", "user:read:follows", "user:read:subscriptions", "whispers:edit", "whispers:read" ];
 
 	internal static async Task<string> GetAuthorizationCode(string channel)
@@ -46,7 +46,7 @@ internal static class TwitchApi
         Connection connection = TwitchApiSettings.TwitchConnections[channel];
         httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {connection.Channel.AccessToken.Token}");
 		httpClient.DefaultRequestHeaders.Add("Client-Id", connection.Channel.ClientId);
-		(await httpClient.PostAsync(BansUri, new StringContent(JsonSerializer.Serialize(new Dictionary<string, object>() { { "broadcaster_id", connection.TargetChannels[targetChannel].ClientId }, { "moderator_id", connection.Channel.ClientId }, { "data", new Dictionary<string, object> { { "user_id", userChannel }, { "duration", timeoutSeconds }, { "reason", reason } } } }), Encoding.UTF8, "application/json"))).EnsureSuccessStatusCode();
+		(await httpClient.PostAsync(BansUri, new StringContent(JsonSerializer.Serialize(new Dictionary<string, object>() { { "broadcaster_id", connection.TargetChannels[targetChannel].UserData.Id }, { "moderator_id", connection.Channel.UserData.Id }, { "data", new Dictionary<string, object> { { "user_id", userChannel }, { "duration", timeoutSeconds }, { "reason", reason } } } }), Encoding.UTF8, "application/json"))).EnsureSuccessStatusCode();
 	}
 
 	internal static async Task<Users> GetUsers(string channel, string[] usersChannels)
@@ -134,9 +134,6 @@ internal static class TwitchApi
                                     case TwitchChatMessageHandler.ChatMessageAction.Timeout:
                                         await TimeoutUser(channel, targetChannel, ircParsedMessage.Tags["user-id"].ToString(), 600, "СПАМ МЕШАЕТ");
                                         break;
-                                    //case TwitchChatMessageHandler.ChatMessageAction.Dino:
-                                        //await TimeoutUser(channel, targetChannel, ircParsedMessage.Tags["user-id"].ToString(), 600, "ДИНОЗАВРИК ЛАГАЕТ");
-                                        //break;
                                     case TwitchChatMessageHandler.ChatMessageAction.Super:
                                         await TimeoutUser(channel, targetChannel, ircParsedMessage.Tags["user-id"].ToString(), 600, "ТЫ АФИГЕЛ ЧО ЛИ А???");
                                         break;
@@ -214,7 +211,7 @@ internal static class TwitchApi
                     {
                         for (int i = 0; i < 4; i++)
                         {
-                            await SendChatMessage(channel, "💜 ИГРАЙ В МАТРЕШКА RP -> matrp.cc/kussia");
+                            await SendChatMessage(channel, "⚡️ Играй в Grand Mobile -> grnd.gg/?ref=kussia (вводи промокод KUSSIA и получи Гелик, 30.000 и V.I.P)");
                         }
                     }, null, TimeSpan.FromSeconds(200), TimeSpan.FromSeconds(600)));
                 }

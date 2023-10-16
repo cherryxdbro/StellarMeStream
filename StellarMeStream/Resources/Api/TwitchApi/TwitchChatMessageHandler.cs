@@ -9,7 +9,6 @@ internal static class TwitchChatMessageHandler
         None,
         Ban,
         Timeout,
-        Dino,
         Super
     }
 
@@ -126,10 +125,6 @@ internal static class TwitchChatMessageHandler
         //"обернись",
         //"скип",
     ];
-    private static readonly List<string> DeleteWords =
-    [
-        "DinoDance"
-    ];
 
     internal static ChatMessageAction IsMessageBad(string message)
     {
@@ -149,10 +144,6 @@ internal static class TwitchChatMessageHandler
         if (ContainsWords(cleanedMessage, MuteWords))
         {
             return ChatMessageAction.Timeout;
-        }
-        if (ContainsWords(cleanedMessage, DeleteWords))
-        {
-            return ChatMessageAction.Dino;
         }
         if (ContainsWords(cleanedMessage, SuperWords))
         {
