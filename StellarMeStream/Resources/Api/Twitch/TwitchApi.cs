@@ -1,11 +1,11 @@
-﻿using StellarMeStream.Resources.Api.TwitchApi.Data;
+﻿using StellarMeStream.Resources.Api.Twitch.Data;
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 
-namespace StellarMeStream.Resources.Api.TwitchApi;
+namespace StellarMeStream.Resources.Api.Twitch;
 
 internal static class TwitchApi
 {

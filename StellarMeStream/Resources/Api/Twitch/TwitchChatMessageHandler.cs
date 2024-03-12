@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace StellarMeStream.Resources.Api.TwitchApi;
+namespace StellarMeStream.Resources.Api.Twitch;
 
 internal static class TwitchChatMessageHandler
 {
@@ -125,6 +125,17 @@ internal static class TwitchChatMessageHandler
         //"обернись",
         //"скип",
     ];
+    public static HashSet<char> StrangeSymbols =
+    [
+        '⣿',
+        '⠉',
+        '⠛',
+        '⣶',
+        '⣤',
+        '█',
+        '▒',
+        '░',
+    ];
 
     internal static ChatMessageAction IsMessageBad(string message)
     {
@@ -179,20 +190,9 @@ internal static class TwitchChatMessageHandler
 
     private static bool ContainsStrangeSymbols(string message)
     {
-        HashSet<char> strangeSymbols =
-        [
-            '⣿',
-            '⠉',
-            '⠛',
-            '⣶',
-            '⣤',
-            '█',
-            '▒',
-            '░',
-        ];
         foreach (char currentChar in message)
         {
-            if (strangeSymbols.Contains(currentChar))
+            if (StrangeSymbols.Contains(currentChar))
             {
                 return true;
             }

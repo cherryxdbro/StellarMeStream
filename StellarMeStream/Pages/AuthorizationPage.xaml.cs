@@ -1,5 +1,6 @@
-﻿using StellarMeStream.Resources.Api.TwitchApi;
-using StellarMeStream.Resources.Api.TwitchApi.Data;
+﻿using StellarMeStream.Resources.Api.Surreal;
+using StellarMeStream.Resources.Api.Twitch;
+using StellarMeStream.Resources.Api.Twitch.Data;
 
 namespace StellarMeStream;
 
@@ -49,8 +50,9 @@ public partial class AuthorizationPage : ContentPage
         }
     }
 
-    private void ShowClientIdButtonClicked(object sender, EventArgs e)
+    private async void ShowClientIdButtonClicked(object sender, EventArgs e)
     {
+        await SurrealApi.Initialize();
         ClientIdEntry.IsPassword = !ClientIdEntry.IsPassword;
         ShowClientIdButton.Text = ShowClientIdButton.Text == "Show" ? "Hide" : "Show";
     }

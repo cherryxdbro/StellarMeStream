@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace StellarMeStream.Resources.Api.TwitchApi.Data;
+namespace StellarMeStream.Resources.Api.Twitch.Data;
 
 public class AccessToken
 {

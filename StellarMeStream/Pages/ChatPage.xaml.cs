@@ -1,6 +1,5 @@
-using StellarMeStream.Resources.Api.TwitchApi;
-using StellarMeStream.Resources.Api.TwitchApi.Data;
-using System.Collections.ObjectModel;
+using StellarMeStream.Resources.Api.Twitch;
+using StellarMeStream.Resources.Api.Twitch.Data;
 
 namespace StellarMeStream;
 

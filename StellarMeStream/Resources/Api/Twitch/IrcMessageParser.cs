@@ -1,6 +1,6 @@
-﻿using StellarMeStream.Resources.Api.TwitchApi.Data;
+﻿using StellarMeStream.Resources.Api.Twitch.Data;
 
-namespace StellarMeStream.Resources.Api.TwitchApi;
+namespace StellarMeStream.Resources.Api.Twitch;
 
 internal static class IrcMessageParser
 {
