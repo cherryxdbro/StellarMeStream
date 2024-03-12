@@ -1,5 +1,4 @@
-﻿using SQLiteNetExtensionsAsync.Extensions;
-using StellarMeStream.Resources.Api.TwitchApi.Data;
+﻿using StellarMeStream.Resources.Api.TwitchApi.Data;
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.WebSockets;
@@ -59,7 +58,6 @@ internal static class TwitchApi
 
 	internal static async Task Connect(string channel)
 	{
-		await StellarMeStreamDatabase.Initialize();
 		Connection connection = TwitchApiSettings.TwitchConnections[channel];
         IrcClientWebSocket = new ClientWebSocket();
 		await IrcClientWebSocket.ConnectAsync(new Uri(IrcUri), CancellationToken.None);
@@ -120,7 +118,7 @@ internal static class TwitchApi
                                                 {
                                                     if (Random.Shared.Next(2) == 0)
                                                     {
-                                                        await SendReplyChatMessage(targetChannel, ircParsedMessage.Tags["id"].ToString(), $"У тебя {Random.Shared.Next(200)} айкью");
+                                                        await SendReplyChatMessage(targetChannel, ircParsedMessage.Tags["id"].ToString(), $"У тебя {Random.Shared.Next(300)} айкью");
                                                     }
                                                 }
                                                 break;
