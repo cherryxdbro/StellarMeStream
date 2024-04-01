@@ -1,8 +1,4 @@
-﻿using StellarMeStream.Resources.Api.Surreal;
-using StellarMeStream.Resources.Api.Twitch;
-using StellarMeStream.Resources.Api.Twitch.Data;
-
-namespace StellarMeStream;
+﻿namespace StellarMeStream.Page;
 
 public partial class AuthorizationPage : ContentPage
 {
@@ -28,21 +24,21 @@ public partial class AuthorizationPage : ContentPage
         {
             string channel = ChannelEntry.Text;
             string targetChannel = TargetChannelEntry.Text;
-            TwitchApiSettings.TwitchConnections.TryAdd(channel, new Connection());
-            if (!TwitchApiSettings.TwitchConnections.TryGetValue(channel, out Connection twitchConnection))
+            StellarMeStream.Resources.Api.Twitch.TwitchApiSettings.TwitchConnections.TryAdd(channel, new Resources.Api.Twitch.Data.Connection());
+            if (!StellarMeStream.Resources.Api.Twitch.TwitchApiSettings.TwitchConnections.TryGetValue(channel, out Resources.Api.Twitch.Data.Connection twitchConnection))
             {
                 throw new Exception("?");
             }
             twitchConnection.Channel.UserData.Login = channel;
-            twitchConnection.TargetChannels.TryAdd(targetChannel, new Channel() { UserData = new User() { Login = targetChannel } });
+            twitchConnection.TargetChannels.TryAdd(targetChannel, new Resources.Api.Twitch.Data.Channel() { UserData = new Resources.Api.Twitch.Data.User() { Login = targetChannel } });
             twitchConnection.Channel.ClientId = ClientIdEntry.Text;
             twitchConnection.Channel.ClientSecret = ClientSecretEntry.Text;
-            twitchConnection.Channel.Code = await TwitchApi.GetAuthorizationCode(channel);
-            twitchConnection.Channel.AccessToken = await TwitchApi.GetAccessToken(channel);
-            Users users = await TwitchApi.GetUsers(channel, [channel, targetChannel]);
+            twitchConnection.Channel.Code = await StellarMeStream.Resources.Api.Twitch.TwitchApi.GetAuthorizationCode(channel);
+            twitchConnection.Channel.AccessToken = await StellarMeStream.Resources.Api.Twitch.TwitchApi.GetAccessToken(channel);
+            Resources.Api.Twitch.Data.Users users = await StellarMeStream.Resources.Api.Twitch.TwitchApi.GetUsers(channel, [channel, targetChannel]);
             twitchConnection.Channel.UserData = users.UsersData[0];
             twitchConnection.TargetChannels[targetChannel].UserData = users.UsersData[1];
-            await TwitchApi.Connect(channel);
+            await StellarMeStream.Resources.Api.Twitch.TwitchApi.Connect(channel);
         }
         catch (Exception exception)
         {
@@ -50,9 +46,8 @@ public partial class AuthorizationPage : ContentPage
         }
     }
 
-    private async void ShowClientIdButtonClicked(object sender, EventArgs e)
+    private void ShowClientIdButtonClicked(object sender, EventArgs e)
     {
-        await SurrealApi.Initialize();
         ClientIdEntry.IsPassword = !ClientIdEntry.IsPassword;
         ShowClientIdButton.Text = ShowClientIdButton.Text == "Show" ? "Hide" : "Show";
     }

@@ -1,50 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StellarMeStream.AuthorizationPage"
+             x:Class="StellarMeStream.Page.AuthorizationPage"
              Title="Authorization">
     <ScrollView Margin="16">
         <StackLayout Spacing="32">
             <StackLayout Spacing="8">
-                <Label Text="Your channel" />
+                <Label Text="Your channel"/>
                 <Entry x:Name="ChannelEntry"
-                       TextChanged="ChannelEntryTextChanged" />
+                       TextChanged="ChannelEntryTextChanged"/>
             </StackLayout>
             <StackLayout Spacing="8">
-                <Label Text="Target channel" />
+                <Label Text="Target channel"/>
                 <Entry x:Name="TargetChannelEntry"
-                       TextChanged="TargetChannelEntryTextChanged" />
+                       TextChanged="TargetChannelEntryTextChanged"/>
             </StackLayout>
             <StackLayout Spacing="8">
-                <Label Text="Client ID" />
+                <Label Text="Client ID"/>
                 <StackLayout Orientation="Horizontal"
                              Spacing="8">
                     <Entry IsPassword="True"
                            HorizontalOptions="FillAndExpand"
                            x:Name="ClientIdEntry"
-                           TextChanged="ClientIdEntryTextChanged" />
+                           TextChanged="ClientIdEntryTextChanged"/>
                     <Button Text="Show"
                             x:Name="ShowClientIdButton"
-                            Clicked="ShowClientIdButtonClicked" />
+                            Clicked="ShowClientIdButtonClicked"/>
                 </StackLayout>
             </StackLayout>
             <StackLayout Spacing="8">
-                <Label Text="Client secret" />
+                <Label Text="Client secret"/>
                 <StackLayout Orientation="Horizontal"
                              Spacing="8">
                     <Entry IsPassword="True"
                            HorizontalOptions="FillAndExpand"
                            x:Name="ClientSecretEntry"
-                           TextChanged="ClientSecretEntryTextChanged" />
+                           TextChanged="ClientSecretEntryTextChanged"/>
                     <Button Text="Show"
                             x:Name="ShowClientSecretButton"
-                            Clicked="ShowClientSecretButtonClicked" />
+                            Clicked="ShowClientSecretButtonClicked"/>
                 </StackLayout>
             </StackLayout>
             <StackLayout Spacing="8">
                 <Button Text="Authorize"
                         x:Name="AuthorizeButton"
-                        Clicked="AuthorizeButtonClicked" />
+                        Clicked="AuthorizeButtonClicked"/>
             </StackLayout>
         </StackLayout>
     </ScrollView>

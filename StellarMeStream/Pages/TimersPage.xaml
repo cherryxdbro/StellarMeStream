@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StellarMeStream.Page.TimersPage"
+             Title="Timers">
+    <ScrollView Margin="16">
+        <StackLayout Spacing="32">
+            <StackLayout Spacing="8">
+                <Label Text="Count"/>
+                <Entry x:Name="CountFieldEntry"/>
+            </StackLayout>
+            <StackLayout Spacing="8">
+                <Label Text="Enabled"/>
+                <Entry x:Name="EnabledFieldEntry"/>
+            </StackLayout>
+            <StackLayout Spacing="8">
+                <Label Text="Id"/>
+                <Entry x:Name="IdFieldEntry"/>
+            </StackLayout>
+            <StackLayout Spacing="8">
+                <Label Text="Message"/>
+                <Entry x:Name="MessageFieldEntry"/>
+            </StackLayout>
+            <StackLayout Spacing="8">
+                <Label Text="Offset"/>
+                <Entry x:Name="OffsetFieldEntry"/>
+            </StackLayout>
+            <StackLayout Spacing="8">
+                <Label Text="Period"/>
+                <Entry x:Name="PeriodFieldEntry"/>
+            </StackLayout>
+            <Button Text="Create timer"
+                    x:Name="CreateTimerButton"
+                    Clicked="CreateTimerButtonClicked"/>
+            <Button Text="Update timer"
+                    x:Name="UpdateTimerButton"
+                    Clicked="UpdateTimerButtonClicked"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

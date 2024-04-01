@@ -1,4 +1,4 @@
-namespace StellarMeStream;
+namespace StellarMeStream.Page;
 
 public partial class SettingsPage : ContentPage
 {

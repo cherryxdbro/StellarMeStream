@@ -1,10 +1,11 @@
-﻿namespace StellarMeStream;
+﻿namespace StellarMeStream.Page;
 
 public partial class MainPage : ContentPage
 {
     public MainPage()
     {
         InitializeComponent();
+        StellarMeStream.Resources.Api.Surreal.SurrealApi.Initialize();
     }
 
     private async void AuthorizationButtonClicked(object sender, EventArgs e)

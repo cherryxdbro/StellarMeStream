@@ -2,9 +2,9 @@
 <Shell x:Class="StellarMeStream.AppShell"
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:StellarMeStream"
+       xmlns:local="clr-namespace:StellarMeStream.Page"
        Shell.FlyoutBehavior="Disabled">
     <ShellContent Title="Home"
                   ContentTemplate="{DataTemplate local:MainPage}"
-                  Route="MainPage" />
+                  Route="MainPage"/>
 </Shell>

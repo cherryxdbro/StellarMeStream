@@ -155,7 +155,7 @@ internal static class TwitchApi
 		}
 	}
 
-	internal static void SwitchSpam(bool switcherValue)
+	internal static async Task SwitchSpamAsync(bool switcherValue)
 	{
         if (switcherValue)
         {
@@ -163,55 +163,20 @@ internal static class TwitchApi
             {
                 foreach (string channel in connection.TargetChannels.Keys)
                 {
-                    TextTimers.Add(new Timer(async state =>
+                    IList<Surreal.Data.Timer> timers = (await Surreal.SurrealApi.SurrealDbClient.RawQuery("select * from timers;")).GetValue<List<Surreal.Data.Timer>>(0);
+                    foreach (Surreal.Data.Timer timer in timers)
                     {
-                        await SendChatMessage(channel, "Boosty (ЗАПИСИ СТРИМОВ) -> boosty.to/kussia1488");
-                    }, null, TimeSpan.FromSeconds(Random.Shared.Next(200)), TimeSpan.FromSeconds(Random.Shared.Next(500, 600))));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        await SendChatMessage(channel, "DonatePay (ДОНАТ) -> new.donatepay.ru/@kussia");
-                    }, null, TimeSpan.FromSeconds(Random.Shared.Next(200)), TimeSpan.FromSeconds(Random.Shared.Next(500, 600))));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        await SendChatMessage(channel, "DonationAlerts (ДОНАТ) -> donationalerts.com/r/kussia");
-                    }, null, TimeSpan.FromSeconds(Random.Shared.Next(200)), TimeSpan.FromSeconds(Random.Shared.Next(500, 600))));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        await SendChatMessage(channel, "Telegram (ПРЕДЛОЖКА В ЗАКРЕПЕ) -> t.me/KussiaOfficial");
-                    }, null, TimeSpan.FromSeconds(Random.Shared.Next(200)), TimeSpan.FromSeconds(Random.Shared.Next(500, 600))));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        await SendChatMessage(channel, "Trovo (УНИКАЛЬНЫЕ СТРИМЫ) -> trovo.live/s/Kussia");
-                    }, null, TimeSpan.FromSeconds(Random.Shared.Next(200)), TimeSpan.FromSeconds(Random.Shared.Next(500, 600))));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        await SendChatMessage(channel, "YouTube (ВТОРОЙ КАНАЛ) -> youtube.com/@kussiastream");
-                    }, null, TimeSpan.FromSeconds(Random.Shared.Next(200)), TimeSpan.FromSeconds(Random.Shared.Next(500, 600))));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        await SendChatMessage(channel, "YouTube (ОСНОВНОЙ КАНАЛ) -> youtube.com/@kussia");
-                    }, null, TimeSpan.FromSeconds(Random.Shared.Next(200)), TimeSpan.FromSeconds(Random.Shared.Next(500, 600))));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        for (int i = 0; i < 4; i++)
+                        if (timer.enabled)
                         {
-                            await SendChatMessage(channel, "💚 Lolzteam (ЗАХОДИ) -> lolz.link/kussia");
+                            TextTimers.Add(new Timer(async state =>
+                            {
+                                for (int i = 0; i < timer.count; i++)
+                                {
+                                    await SendChatMessage(channel, timer.message);
+                                }
+                            }, null, TimeSpan.FromTicks(Random.Shared.NextInt64(timer.offset.Ticks)), timer.period));
                         }
-                    }, null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(600)));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            await SendChatMessage(channel, "💖 УЧАСТВОВАТЬ В РОЗЫГРЫШЕ ДОГОВОРОВ ОТ \"ПризываНет\" -> t.me/bilet_kussia_bot");
-                        }
-                    }, null, TimeSpan.FromSeconds(400), TimeSpan.FromSeconds(600)));
-                    TextTimers.Add(new Timer(async state =>
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            await SendChatMessage(channel, "⚡️ Играй в Grand Mobile -> grnd.gg/?ref=kussia (вводи промокод KUSSIA и получи Гелик, 30.000 и V.I.P)");
-                        }
-                    }, null, TimeSpan.FromSeconds(200), TimeSpan.FromSeconds(600)));
+                    }
                 }
             }
         }

@@ -1,7 +1,4 @@
-using StellarMeStream.Resources.Api.Twitch;
-using StellarMeStream.Resources.Api.Twitch.Data;
-
-namespace StellarMeStream;
+namespace StellarMeStream.Page;
 
 public partial class ChatPage : ContentPage
 {
@@ -14,22 +11,27 @@ public partial class ChatPage : ContentPage
 
     private async void SendMessageButtonClicked(object sender, EventArgs e)
     {
-        foreach (Connection connection in TwitchApiSettings.TwitchConnections.Values)
+        foreach (Resources.Api.Twitch.Data.Connection connection in StellarMeStream.Resources.Api.Twitch.TwitchApiSettings.TwitchConnections.Values)
         {
             foreach (string channel in connection.TargetChannels.Keys)
             {
-                await TwitchApi.SendChatMessage(channel, MessageToSendEntry.Text);
+                await StellarMeStream.Resources.Api.Twitch.TwitchApi.SendChatMessage(channel, MessageToSendEntry.Text);
             }
         }
     }
 
     private void AddSuperWordButtonClicked(object sender, EventArgs e)
     {
-        TwitchChatMessageHandler.SuperWords.Add(SuperWordEntry.Text);
+        StellarMeStream.Resources.Api.Twitch.TwitchChatMessageHandler.SuperWords.Add(SuperWordEntry.Text);
     }
 
-    private void SpamSwitchToggled(object sender, ToggledEventArgs e)
+    private async void SpamSwitchToggled(object sender, ToggledEventArgs e)
     {
-        TwitchApi.SwitchSpam(e.Value);
+        await StellarMeStream.Resources.Api.Twitch.TwitchApi.SwitchSpamAsync(e.Value);
+    }
+
+    private async void TimersButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(TimersPage.CurrentInstance ??= new TimersPage());
     }
 }

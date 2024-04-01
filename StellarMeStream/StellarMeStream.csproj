@@ -64,10 +64,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.7" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.7" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.10" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="SurrealDb.Net" Version="0.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\TimersPage.xaml.cs">
+	    <DependentUpon>TimersPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\TimersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<!-- Build Properties must be defined within these property groups to ensure successful publishing
